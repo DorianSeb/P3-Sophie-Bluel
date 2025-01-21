@@ -45,7 +45,7 @@ async function getCategories() {
         categoriesButtons.appendChild(button); // Ajoute chaque bouton à la div.filters
 
         button.addEventListener("click", () => {
-            const filteredGallery = items.filter(item => item.categoryId === category.id);
+            const filteredGallery = items.filter(item => item.categorydId === category.id);
             displayGallery(filteredGallery); // Affiche les éléments filtrés
         });
     });
