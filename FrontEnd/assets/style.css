@@ -50,6 +50,21 @@ table {
 html {
 	scroll-behavior: smooth;
   }
+.editmodebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+	background-color: black;
+	color: white;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: work sans;
+	gap: 10px;
+}
 nav ul li a {
 	text-decoration: none;
 	color: black;
@@ -59,6 +74,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	margin-top: 65px;
 }
 header {
 	display: flex;
