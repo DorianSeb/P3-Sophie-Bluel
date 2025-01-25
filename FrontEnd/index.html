@@ -12,9 +12,10 @@
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="/FrontEnd/JS/project.js" defer></script> <!-- Script dans le head avec fonction defer pour qu'il s'éxécute apr`s le Dom-->
 	<script src="/FrontEnd/JS/categories.js" defer></script>
+	<script src="/FrontEnd/JS/editmode.js" defer></script>
 </head>
 <body>
-	<div class="editmodebar">
+	<div class="editmodebar hiddenbar">
 		<i class="fa-regular fa-pen-to-square"></i>
 		<p>Mode édition</p>
 	</div>
@@ -30,6 +31,26 @@
 	</nav>
 </header>
 <main>
+	<!--Modale-->
+	<div id="modal" class="modal hiddenmodal">
+		<div class="modal-content">
+			<button id="close-modal" class="close-button">&times;</button>
+			<h2>Ajout projet</h2>
+			<p>Contenu modale.....</p>
+		</div>
+	</div>
+
+<!--GrafikartModal-->
+	<a href="#modal1">Ouvrir la boite modale</a>
+	<aside id="modale1" class="modal">
+		<div class="modal-wrapper">
+
+
+		</div>
+	</aside>
+
+	<!--Modale End-->
+
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
