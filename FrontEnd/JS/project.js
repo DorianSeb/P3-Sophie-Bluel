@@ -19,11 +19,10 @@ function displayGallery(items) {
 const galleryContainer = document.querySelector(".gallery");
 galleryContainer.innerHTML = "";
 
-//creation boucle, voir diff avec le tuto
 items.forEach(item => {
   const figure = document.createElement("figure");
   const img = document.createElement("img");
-  img.src = item.imageUrl; //il recupere comment l'image?
+  img.src = item.imageUrl; 
   img.alt = item.title;
   const figcaption = document.createElement("figcaption"); //légende image
   figcaption.textContent = item.title;

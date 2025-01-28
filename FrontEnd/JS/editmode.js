@@ -5,19 +5,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const authToken = localStorage.getItem("authToken");
     console.log("Token trouvé :", authToken);
 
-    // Gestion de la barre de mode édition
+    // Bouton et barre du mode édition
     const editModeBar = document.querySelector(".editmodebar");
-    if (editModeBar) {
+    const editButton = document.querySelector(".js-modal-2");
+
+        if (editModeBar) {
         if (authToken) {
-            console.log("Mode édition activé.");
-            editModeBar.classList.remove("hiddenbar");
+        console.log("Mode édition activé.");
+        editModeBar.classList.remove("hiddenbar"); // Affiche la barre d'édition
+
+        if (editButton) {
+            editButton.style.display = "block"; // Affiche le bouton "Modifier"
         } else {
-            console.log("Pas de token, mode édition désactivé.");
-            editModeBar.classList.add("hiddenbar");
+            console.error("Bouton Modifier (.js-modal-2) introuvable !");
         }
     } else {
-        console.error("Élément .editmodebar introuvable !");
+        console.log("Pas de token, mode édition désactivé.");
+        editModeBar.classList.add("hiddenbar"); // Cache la barre d'édition
+
+        if (editButton) {
+            editButton.style.display = "none"; // Cache le bouton "Modifier"
+        }
     }
+} else {
+    console.error("Élément .editmodebar introuvable !");
+}
 
     // Gestion du lien login/logout
     const loginLink = document.querySelector('a[href="login.html"]');

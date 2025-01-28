@@ -13,12 +13,26 @@
 	<script src="/FrontEnd/JS/project.js" defer></script> <!-- Script dans le head avec fonction defer pour qu'il s'éxécute apr`s le Dom-->
 	<script src="/FrontEnd/JS/categories.js" defer></script>
 	<script src="/FrontEnd/JS/editmode.js" defer></script>
+	<script src="/FrontEnd/JS/modale.js" defer></script>
 </head>
 <body>
 	<div class="editmodebar hiddenbar">
 		<i class="fa-regular fa-pen-to-square"></i>
 		<p>Mode édition</p>
 	</div>
+	<!--GrafikartModal-->
+	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modaltitle" style="display: none;">
+		<div class="modal-wrapper js-modal-stop">
+			<button data-action="close" class="js-modal-close">Fermer</button>
+			<h3 id="modaltitle">Galerie photo</h3>
+				<p>Contenu de la modale</p>
+				<div class="gallery-modal">
+					 
+				</div>
+
+		</div>
+	</aside>
+	<!--Modale End-->
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -31,19 +45,6 @@
 	</nav>
 </header>
 <main>
-
-<!--GrafikartModal-->
-	<a href="#modal1">Ouvrir la boite modale</a>
-	<aside id="modale1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modaltitle" style="display: none;">
-		<div class="modal-wrapper">
-			<h1 id="modaltitle">Conditions d'utilisation</h1>
-
-
-		</div>
-	</aside>
-
-	<!--Modale End-->
-
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
@@ -57,6 +58,7 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		<a href="#modal1" style="display: none" class="js-modal js-modal-2"><i class="fa-regular fa-pen-to-square"></i>Modifier</a>
 		<div class="gallery">
 	
 		</div>
