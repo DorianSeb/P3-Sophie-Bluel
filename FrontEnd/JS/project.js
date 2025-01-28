@@ -15,8 +15,8 @@ async function getWorks() {
   }
 }
 
-function displayGallery(items) {
-const galleryContainer = document.querySelector(".gallery");
+function displayGallery(items, containerSelector) {
+const galleryContainer = document.querySelector(containerSelector);
 galleryContainer.innerHTML = "";
 
 items.forEach(item => {
@@ -34,6 +34,7 @@ items.forEach(item => {
 
 document.addEventListener("DOMContentLoaded", async () => {
 items = await getWorks();
-displayGallery(items);
+displayGallery(items,  ".gallery");
+displayGallery(items,  ".gallery-modal");
 });
 

@@ -13,6 +13,7 @@ const openModal = function(e) {
     modal.addEventListener('click', closeModal);
     modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+    
 }
 
 const closeModal = function(e) {
@@ -57,7 +58,7 @@ document.querySelectorAll('.js-modal').forEach((a) => {
         if (e.key === "Escape" || e.key === "Esc") {
             closeModal(e);
         }
-        if (e.key === "Tab" && modal !== null) {
-            focusInModal(e);
-        }
-    });
+            if (e.key === "Tab" && modal !== null) {
+                focusInModal(e);
+            }
+        });
