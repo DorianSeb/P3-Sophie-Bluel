@@ -149,8 +149,26 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
+.project-title {
+	display: flex;             
+	justify-content: center;
+	gap: 10px;
+	align-items: center;
+}
+.project-title h2 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.project-title a {
+	color: black;
+	text-decoration: none;
+	gap: 10px;
+}
+.js-modal-2 i {
+	margin-right: 5px;
+  }
 .filters {
     min-width: 550px;
 	width: 50%;
