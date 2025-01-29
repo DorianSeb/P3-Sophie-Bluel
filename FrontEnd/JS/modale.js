@@ -63,3 +63,21 @@ document.querySelectorAll('.js-modal').forEach((a) => {
             }
         });
     
+        document.addEventListener("DOMContentLoaded", () => {
+            const galleryView = document.getElementById("gallery-view"); // Galerie principale
+            const addPhotoView = document.getElementById("add-photo-view"); // Vue ajout photo
+            const addPhotoButton = document.getElementById("open-add-photo"); // Bouton pour ajouter une photo
+            const backButton = document.getElementById("back-to-gallery"); // Bouton retour
+        
+            // Fonction pour afficher l'ajout de photo et cacher la galerie
+            addPhotoButton.addEventListener("click", () => {
+                galleryView.style.display = "none"; // On cache la galerie
+                addPhotoView.style.display = "block"; // On affiche la vue d'ajout
+            });
+        
+            // Fonction pour revenir à la galerie et cacher l'ajout de photo
+            backButton.addEventListener("click", () => {
+                addPhotoView.style.display = "none"; // On cache l'ajout
+                galleryView.style.display = "block"; // On réaffiche la galerie
+            });
+        });
