@@ -274,7 +274,7 @@ footer nav ul {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	width: 700px;
+	width: 600px;
 	max-width: calc(100vw - 20px); /* Une fois la largeur de l'ecran moins 20px */
 	max-height: calc(100vh - 20px);
 	padding: 50px;
@@ -298,7 +298,7 @@ footer nav ul {
     margin-bottom: 40px;
 }
 .gallery-modal {
-	max-width: 80%;
+	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-gap: 20px;
@@ -306,4 +306,24 @@ footer nav ul {
 }
 .gallery-modal img {
 	width: 100%;
+}
+.modal-wrapper hr {
+    margin-top: 30px;
+	width: 80%;
+	color: rgb(238, 235, 235);
+}
+.modal-button-container{
+    display: flex;
+    justify-content: center;
+}
+.add-item-button {
+    padding: 10px 20px;
+    margin-top: 30px;
+    border: 1px solid #1D6154;
+    border-radius: 25px;
+    font-family: 'Syne';
+    color: white;
+    cursor: pointer;
+    background-color: #1D6154;
+    width: 250px;
 }
