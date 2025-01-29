@@ -11,7 +11,7 @@ async function getWorks() {
     return json;
   } catch (error) {
     console.error(error.message);
-    return []
+    return [];
   }
 }
 
@@ -35,9 +35,6 @@ function displayGallery(items, containerSelector) {
     img.src = item.imageUrl;
     img.alt = item.title;
 
-    const figcaption = document.createElement("figcaption");
-    figcaption.textContent = item.title;
-
     // ✅ Ajoute l'icône poubelle seulement dans la galerie modale
     if (containerSelector === ".gallery-modal") {
       const trashIcon = document.createElement("i");
@@ -55,16 +52,71 @@ function displayGallery(items, containerSelector) {
       imgContainer.appendChild(trashIcon); // Ajoute la poubelle SUR l'image
       figure.appendChild(imgContainer); // Ajoute tout à la figure
     } else {
-      figure.appendChild(img);
+      // ✅ Si ce n'est PAS la galerie modale, on ajoute la légende en bas
+      const contentContainer = document.createElement("div"); // Nouveau conteneur pour organiser
+      contentContainer.classList.add("content-container");
+
+      contentContainer.appendChild(img); // Ajoute l'image en haut
+      const figcaption = document.createElement("figcaption");
+      figcaption.textContent = item.title;
+      contentContainer.appendChild(figcaption); // Ajoute la légende en bas
+
+      figure.appendChild(contentContainer); // Ajoute le conteneur dans la figure
     }
 
-    figure.appendChild(figcaption);
     galleryContainer.appendChild(figure);
   });
 }
 
+async function deleteWork(id) {
+  const token = localStorage.getItem("authToken"); // Vérifie si l'utilisateur est connecté
+  if (!token) {
+      console.error("Utilisateur non authentifié");
+      return;
+  }
+
+  const confirmDelete = confirm("Voulez-vous vraiment supprimer ce projet ?");
+  if (!confirmDelete) return;
+
+  try {
+      const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+          method: "DELETE",
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      if (response.ok) {
+          console.log(`Travail avec l'ID ${id} supprimé avec succès.`);
+          
+          // ✅ Supprimer l'élément du DOM
+          removeWorkFromDOM(id);
+      } else {
+          console.error("Erreur lors de la suppression :", response.status);
+      }
+  } catch (error) {
+      console.error("Erreur :", error);
+  }
+}
+
+function removeWorkFromDOM(id) {
+  // Supprime l'élément de la modale
+  const workElementModal = document.querySelector(`.gallery-modal [data-id="${id}"]`);
+  if (workElementModal) {
+      workElementModal.parentElement.remove(); // Supprime l'image et l'icône
+  }
+
+  // Supprime l'élément de la galerie principale
+  const workElementGallery = document.querySelector(`.gallery [data-id="${id}"]`);
+  if (workElementGallery) {
+      workElementGallery.parentElement.remove();
+  }
+
+  console.log(`Élément avec l'ID ${id} retiré du DOM.`);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
-items = await getWorks();
-displayGallery(items,  ".gallery");
-displayGallery(items,  ".gallery-modal");
+  const items = await getWorks();
+  displayGallery(items, ".gallery");
+  displayGallery(items, ".gallery-modal");
 });
