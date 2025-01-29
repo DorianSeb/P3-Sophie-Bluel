@@ -62,5 +62,4 @@ document.querySelectorAll('.js-modal').forEach((a) => {
                 focusInModal(e);
             }
         });
-
-   
+    

@@ -31,8 +31,37 @@
 			</div>
 			<hr />
 			<div class="modal-button-container">
-			  <button class="add-item-button">Ajouter une photo</button>
+				<button id="open-add-photo" class="add-item-button">Ajouter une photo</button>
 			</div>
+		</div>
+	
+		<div id="modal-add-photo" style="display: none;">
+			<button id="back-to-gallery" class="back-button">
+				<i class="fa-solid fa-arrow-left"></i>
+			</button>
+			<h3>Ajout photo</h3>
+	
+			<form id="add-photo-form">
+				<div class="image-upload">
+					<label for="photo-input">
+						<div class="upload-preview">
+							<i class="fa-regular fa-image picture-loaded"></i>
+							<span>+ Ajouter photo</span>
+							<p>jpg, png : 4mo max</p>
+						</div>
+					</label>
+					<input type="file" id="photo-input" accept="image/png, image/jpeg" hidden>
+				</div>
+	
+				<label for="photo-title">Titre</label>
+				<input type="text" id="photo-title" required>
+	
+				<label for="photo-category">Catégorie</label>
+				<select id="photo-category" required></select>
+	
+				<hr />
+				<button type="submit" class="add-item-button">Valider</button> 
+			</form>
 		</div>
 	</aside>
 	<!--Modale End-->
