@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   allButton.textContent = "Tous";
   categoriesButtons.appendChild(allButton);
   allButton.addEventListener("click", () => {
-      displayGallery(items); // Affiche tous les éléments
+      displayGallery(items, ".gallery"); // Affiche tous les éléments
   });
 
   // Récupérer les catégories et supprimer les doublons avec Set
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       button.addEventListener("click", () => {
           const filteredGallery = items.filter(item => item.categoryId === category.id);
-          displayGallery(filteredGallery); // Affiche les éléments filtrés
+          displayGallery(filteredGallery, ".gallery"); // Affiche les éléments filtrés
       });
   });
 });
