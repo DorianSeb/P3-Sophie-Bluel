@@ -52,7 +52,7 @@ function displayGallery(items, containerSelector) {
       imgContainer.appendChild(trashIcon); // Ajoute la poubelle SUR l'image
       figure.appendChild(imgContainer); // Ajoute tout à la figure
     } else {
-      // ✅ Si ce n'est PAS la galerie modale, on ajoute la légende en bas
+      // Si ce n'est PAS la galerie modale, on ajoute la légende en bas
       const contentContainer = document.createElement("div"); // Nouveau conteneur pour organiser
       contentContainer.classList.add("content-container");
 
@@ -88,12 +88,16 @@ async function deleteWork(id) {
 
       if (response.ok) {
           console.log(`Travail avec l'ID ${id} supprimé avec succès.`);
-          
-          // ✅ Supprimer l'élément du DOM
+          // Supprimer l'élément du DOM
           removeWorkFromDOM(id);
       } else {
           console.error("Erreur lors de la suppression :", response.status);
       }
+      // Supprime immédiatement l'image de la galerie principale
+const workElementGallery = document.querySelector(`.gallery figure[data-id="${id}"]`);
+if (workElementGallery) {
+    workElementGallery.remove();
+}
   } catch (error) {
       console.error("Erreur :", error);
   }
@@ -109,7 +113,7 @@ function removeWorkFromDOM(id) {
   // Supprime l'élément de la galerie principale
   const workElementGallery = document.querySelector(`.gallery [data-id="${id}"]`);
   if (workElementGallery) {
-      workElementGallery.parentElement.remove();
+      workElementGallery.remove(); //  Correction : Supprime l'élément directement
   }
 
   console.log(`Élément avec l'ID ${id} retiré du DOM.`);
@@ -126,10 +130,12 @@ function addProjectToGallery(project) {
 
   const figure = document.createElement("figure");
   figure.classList.add("gallery-item");
+  figure.dataset.id = project.id; // ✅ Ajoute l'ID pour la suppression dynamique
 
   const img = document.createElement("img");
   img.src = project.imageUrl;
   img.alt = project.title;
+  img.dataset.id = project.id; // ✅ Ajoute aussi l'ID à l'image
 
   const figcaption = document.createElement("figcaption");
   figcaption.textContent = project.title;

@@ -117,11 +117,27 @@ document.querySelectorAll('.js-modal').forEach((a) => {
             const titleInput = document.getElementById("photo-title");
             const categoryInput = document.getElementById("photo-category");
             const submitButton = document.querySelector("#add-photo-form .add-item-button");
-        
+            const uploadPreview = document.querySelector(".upload-preview");
+            
             // Désactiver le bouton au début
             submitButton.disabled = true;
             submitButton.style.backgroundColor = "grey"; 
-        
+
+            // Fonction pour afficher l'aperçu de l'image
+        function displayImagePreview() {
+            const file = fileInput.files[0];
+
+         if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                //  Remplace l'upload-preview par l'image sélectionnée
+                uploadPreview.innerHTML = `<img src="${e.target.result}" alt="Aperçu de l'image" style="max-width: 100%; max-height: 200px; border-radius: 5px;">`;
+            };
+            reader.readAsDataURL(file);
+         } else {
+            alert("Veuillez sélectionner une image au format JPG ou PNG.");
+        }
+    }
             // Fonction pour vérifier si tous les champs sont remplis
             function checkFormValidity() {
                 if (fileInput.files.length > 0 && titleInput.value.trim() !== "" && categoryInput.value !== "") {
@@ -133,11 +149,15 @@ document.querySelectorAll('.js-modal').forEach((a) => {
                 }
             }
         
-            // Ajouter un écouteur sur chaque champ
-            fileInput.addEventListener("change", checkFormValidity);
-            titleInput.addEventListener("input", checkFormValidity);
-            categoryInput.addEventListener("change", checkFormValidity);
-        });
+         // Ajouter les écouteurs d'événements
+    fileInput.addEventListener("change", () => {
+        displayImagePreview();
+        checkFormValidity();
+    });
+
+    titleInput.addEventListener("input", checkFormValidity);
+    categoryInput.addEventListener("change", checkFormValidity);
+});
         // Exécuter la fonction une fois le DOM chargé
         document.addEventListener("DOMContentLoaded", populateCategorySelect);
 
@@ -177,6 +197,25 @@ document.querySelectorAll('.js-modal').forEach((a) => {
             });
         });
 
+        function addProjectToModal(project) {
+            const figure = document.createElement("figure");
+            figure.innerHTML = `<div class="image-container">
+                <img src="${project.imageUrl}" alt="${project.title}">
+                <figcaption>${project.title}</figcaption>
+                <i class="fa-solid fa-trash-can delete-icon" data-id="${project.id}"></i>
+            </div>`;
+        
+            document.querySelector(".gallery-modal").appendChild(figure);
+        
+            // Ajoute un gestionnaire d'événement pour la suppression
+            const trashIcon = figure.querySelector(".delete-icon");
+            trashIcon.addEventListener("click", async (event) => {
+                event.stopPropagation();
+                const idToDelete = event.target.dataset.id;
+                await deleteWork(idToDelete);
+            });
+        }
+
         async function sendNewProject(file, title, category) {
             const formData = new FormData();
             formData.append("image", file);
@@ -206,8 +245,22 @@ document.querySelectorAll('.js-modal').forEach((a) => {
                 addProjectToModal(newWork);
         
                 // Fermer la modale et réinitialiser le formulaire
-                closeModal();
+                closeModal(new Event("close"));
                 document.getElementById("add-photo-form").reset();
+                
+                    // Réinitialise l'aperçu de l'image
+                const uploadPreview = document.querySelector(".upload-preview");
+                uploadPreview.innerHTML = `<i class="fa-regular fa-image picture-loaded"></i>
+                           <span>+ Ajouter photo</span>
+                           <p>jpg, png : 4mo max</p>`;
+
+                // Réinitialise la catégorie à l'option par défaut
+                document.getElementById("photo-category").selectedIndex = 0;
+
+                // Désactiver le bouton valider après réinitialisation
+                const submitButton = document.querySelector("#add-photo-form .add-item-button");
+                submitButton.disabled = true;
+                submitButton.style.backgroundColor = "grey";
         
             } catch (error) {
                 console.error("Erreur:", error);
