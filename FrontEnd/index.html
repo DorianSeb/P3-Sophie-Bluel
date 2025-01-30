@@ -23,13 +23,16 @@
 	<!--Modal-->
 	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modaltitle" style="display: none;">
 		<div class="modal-wrapper js-modal-stop">
-			<div class="modal-header-close"> 
+			<div class="modal-header-close">
+				<button id="back-to-gallery" class="back-button" style="display: none;">
+					<i class="fa-solid fa-arrow-left"></i>
+				</button>
 				<button data-action="close" class="js-modal-close">
 					<i class="fa-solid fa-xmark"></i>
 				</button>
 			</div>
-			
-			<!-- ✅ Galerie Photo -->
+	
+			<!-- Galerie Photo -->
 			<div id="gallery-view">
 				<h3 id="modaltitle">Galerie photo</h3>
 				<div class="gallery-modal"></div>
@@ -39,11 +42,8 @@
 				</div>
 			</div>
 	
-			<!-- ✅ Ajout Photo (Caché par défaut) -->
+			<!-- Ajout Photo -->
 			<div id="add-photo-view" style="display: none;">
-				<button id="back-to-gallery" class="back-button">
-					<i class="fa-solid fa-arrow-left"></i>
-				</button>
 				<h3>Ajout photo</h3>
 	
 				<form id="add-photo-form">

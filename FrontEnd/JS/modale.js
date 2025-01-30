@@ -64,20 +64,22 @@ document.querySelectorAll('.js-modal').forEach((a) => {
         });
     
         document.addEventListener("DOMContentLoaded", () => {
-            const galleryView = document.getElementById("gallery-view"); // Galerie principale
-            const addPhotoView = document.getElementById("add-photo-view"); // Vue ajout photo
-            const addPhotoButton = document.getElementById("open-add-photo"); // Bouton pour ajouter une photo
-            const backButton = document.getElementById("back-to-gallery"); // Bouton retour
+            const galleryView = document.getElementById("gallery-view");
+            const addPhotoView = document.getElementById("add-photo-view");
+            const openAddPhoto = document.getElementById("open-add-photo");
+            const backButton = document.getElementById("back-to-gallery");
         
-            // Fonction pour afficher l'ajout de photo et cacher la galerie
-            addPhotoButton.addEventListener("click", () => {
-                galleryView.style.display = "none"; // On cache la galerie
-                addPhotoView.style.display = "block"; // On affiche la vue d'ajout
+            // ✅ Passer à "Ajout photo"
+            openAddPhoto.addEventListener("click", () => {
+                galleryView.style.display = "none";
+                addPhotoView.style.display = "block";
+                backButton.style.display = "block"; // Affiche la flèche
             });
         
-            // Fonction pour revenir à la galerie et cacher l'ajout de photo
+            // ✅ Revenir à "Galerie photo"
             backButton.addEventListener("click", () => {
-                addPhotoView.style.display = "none"; // On cache l'ajout
-                galleryView.style.display = "block"; // On réaffiche la galerie
+                addPhotoView.style.display = "none";
+                galleryView.style.display = "block";
+                backButton.style.display = "none"; // Cache la flèche
             });
         });
