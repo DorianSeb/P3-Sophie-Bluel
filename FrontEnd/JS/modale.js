@@ -83,3 +83,134 @@ document.querySelectorAll('.js-modal').forEach((a) => {
                 backButton.style.display = "none"; // Cache la flèche
             });
         });
+
+        async function populateCategorySelect() {
+            const selectElement = document.getElementById("photo-category");
+            if (!selectElement) return;
+        
+            try {
+                const categories = await getCategories(); // Utilise la fonction existante pour récupérer les catégories
+                selectElement.innerHTML = ""; // Vide le select avant d'ajouter les options
+        
+                // ✅ Ajoute une option par défaut
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "Sélectionnez une catégorie";
+                defaultOption.disabled = true; // Empêche la sélection
+                defaultOption.selected = true; // Sélectionnée par défaut
+                selectElement.appendChild(defaultOption);
+        
+                // ✅ Ajoute les vraies catégories
+                categories.forEach(category => {
+                    const option = document.createElement("option");
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    selectElement.appendChild(option);
+                });
+        
+            } catch (error) {
+                console.error("Erreur lors du chargement des catégories :", error);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            const fileInput = document.getElementById("photo-input");
+            const titleInput = document.getElementById("photo-title");
+            const categoryInput = document.getElementById("photo-category");
+            const submitButton = document.querySelector("#add-photo-form .add-item-button");
+        
+            // Désactiver le bouton au début
+            submitButton.disabled = true;
+            submitButton.style.backgroundColor = "grey"; 
+        
+            // Fonction pour vérifier si tous les champs sont remplis
+            function checkFormValidity() {
+                if (fileInput.files.length > 0 && titleInput.value.trim() !== "" && categoryInput.value !== "") {
+                    submitButton.disabled = false;
+                    submitButton.style.backgroundColor = "#1D6154"; // ✅ Passe au vert
+                } else {
+                    submitButton.disabled = true;
+                    submitButton.style.backgroundColor = "grey"; // ❌ Reste gris
+                }
+            }
+        
+            // Ajouter un écouteur sur chaque champ
+            fileInput.addEventListener("change", checkFormValidity);
+            titleInput.addEventListener("input", checkFormValidity);
+            categoryInput.addEventListener("change", checkFormValidity);
+        });
+        // Exécuter la fonction une fois le DOM chargé
+        document.addEventListener("DOMContentLoaded", populateCategorySelect);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const addPhotoForm = document.getElementById("add-photo-form");
+            const fileInput = document.getElementById("photo-input");
+            const titleInput = document.getElementById("photo-title");
+            const categoryInput = document.getElementById("photo-category");
+        
+            addPhotoForm.addEventListener("submit", async (event) => {
+                event.preventDefault(); // Empêche le rechargement de la page
+        
+                // Récupérer les valeurs du formulaire
+                const file = fileInput.files[0];
+                const title = titleInput.value.trim();
+                const category = categoryInput.value;
+        
+                // Vérifier que tous les champs sont remplis
+                if (!file || !title || !category) {
+                    alert("Veuillez remplir tous les champs et sélectionner une image.");
+                    return;
+                }
+        
+                // Vérifier le format et la taille du fichier
+                const validFormats = ["image/jpeg", "image/png"];
+                if (!validFormats.includes(file.type)) {
+                    alert("Format d'image non valide. Choisissez un fichier JPG ou PNG.");
+                    return;
+                }
+                if (file.size > 4 * 1024 * 1024) {
+                    alert("L'image ne doit pas dépasser 4 Mo.");
+                    return;
+                }
+        
+                // Envoyer les données à l'API
+                await sendNewProject(file, title, category);
+            });
+        });
+
+        async function sendNewProject(file, title, category) {
+            const formData = new FormData();
+            formData.append("image", file);
+            formData.append("title", title);
+            formData.append("category", category);
+        
+            const token = localStorage.getItem("authToken"); // Récupération du token
+        
+            try {
+                const response = await fetch("http://localhost:5678/api/works", {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: formData,
+                });
+        
+                if (!response.ok) {
+                    throw new Error(`Erreur serveur: ${response.status}`);
+                }
+        
+                const newWork = await response.json();
+                console.log("Projet ajouté:", newWork);
+        
+                // Ajouter dynamiquement le projet dans la galerie
+                addProjectToGallery(newWork);
+                addProjectToModal(newWork);
+        
+                // Fermer la modale et réinitialiser le formulaire
+                closeModal();
+                document.getElementById("add-photo-form").reset();
+        
+            } catch (error) {
+                console.error("Erreur:", error);
+                alert("Une erreur est survenue lors de l'ajout du projet.");
+            }
+        }

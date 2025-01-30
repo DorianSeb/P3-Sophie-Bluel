@@ -120,3 +120,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   displayGallery(items, ".gallery");
   displayGallery(items, ".gallery-modal");
 });
+
+function addProjectToGallery(project) {
+  const gallery = document.querySelector(".gallery");
+
+  const figure = document.createElement("figure");
+  figure.classList.add("gallery-item");
+
+  const img = document.createElement("img");
+  img.src = project.imageUrl;
+  img.alt = project.title;
+
+  const figcaption = document.createElement("figcaption");
+  figcaption.textContent = project.title;
+
+  figure.appendChild(img);
+  figure.appendChild(figcaption);
+  gallery.appendChild(figure);
+}
