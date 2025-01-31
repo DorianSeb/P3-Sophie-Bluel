@@ -20,6 +20,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const categoriesButtons = document.createElement("div");
   categoriesButtons.classList.add("filters");
 
+  // Vérifier si l'utilisateur est en mode admin (authToken présent)
+  const isAdmin = localStorage.getItem("authToken");
+  if (isAdmin) {
+    categoriesButtons.style.display = "none"; // Cache les filtres en mode admin
+    document.body.classList.add("admin-mode");
+}
+
   // Placer la div.filters juste au-dessus de la galerie
   const galleryContainer = categoriesFilters.querySelector(".gallery");
   categoriesFilters.insertBefore(categoriesButtons, galleryContainer);
