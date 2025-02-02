@@ -1,3 +1,4 @@
+console.log("Chargement de la page categories.");
 async function getCategories() {
   const url = "http://localhost:5678/api/categories";
   try {
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isAdmin) {
     categoriesButtons.style.display = "none"; // Cache les filtres en mode admin
     document.body.classList.add("admin-mode");
-}
+  }
 
   // Placer la div.filters juste au-dessus de la galerie
   const galleryContainer = categoriesFilters.querySelector(".gallery");
@@ -35,25 +36,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   const allButton = document.createElement("button");
   allButton.textContent = "Tous";
   categoriesButtons.appendChild(allButton);
-  allButton.addEventListener("click", () => {
-      displayGallery(items, ".gallery"); // Affiche tous les éléments
+  allButton.addEventListener("click", async () => {
+    const items = await getWorks();
+    console.log("Tous les éléments", items);
+    displayGallery(items, ".gallery"); // Affiche tous les éléments
   });
 
   // Récupérer les catégories et supprimer les doublons avec Set
   const categories = await getCategories();
   const uniqueCategories = Array.from(
-      new Set(categories.map(category => JSON.stringify(category)))
+    new Set(categories.map(category => JSON.stringify(category)))
   ).map(category => JSON.parse(category));
 
   // Ajouter un bouton pour chaque catégorie unique
   uniqueCategories.forEach(category => {
-      const button = document.createElement("button");
-      button.textContent = category.name; // Texte du bouton
-      categoriesButtons.appendChild(button); // Ajoute chaque bouton à la div.filters
+    const button = document.createElement("button");
+    button.textContent = category.name; // Texte du bouton
+    categoriesButtons.appendChild(button); // Ajoute chaque bouton à la div.filters
 
-      button.addEventListener("click", () => {
-          const filteredGallery = items.filter(item => item.categoryId === category.id);
-          displayGallery(filteredGallery, ".gallery"); // Affiche les éléments filtrés
-      });
+    button.addEventListener("click", async () => {
+      const items = await getWorks();
+      console.log("Tous les éléments", items);
+      const filteredGallery = items.filter(item => item.categoryId === category.id);
+      displayGallery(filteredGallery, ".gallery"); // Affiche les éléments filtrés
+    });
   });
 });

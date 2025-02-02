@@ -1,4 +1,6 @@
+console.log("Chargement du fichier project.js");
 async function getWorks() {
+  console.log("Récupération des projets...");
   const url = "http://localhost:5678/api/works";
   try {
     const response = await fetch(url);
@@ -123,6 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const items = await getWorks();
   displayGallery(items, ".gallery");
   displayGallery(items, ".gallery-modal");
+  console.log("Galerie affichée.", items);
 });
 
 function addProjectToGallery(project) {
