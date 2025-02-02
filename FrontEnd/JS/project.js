@@ -1,4 +1,5 @@
 console.log("Chargement du fichier project.js");
+
 async function getWorks() {
   console.log("Récupération des projets...");
   const url = "http://localhost:5678/api/works";
@@ -29,6 +30,7 @@ function displayGallery(items, containerSelector) {
   items.forEach(item => {
     const figure = document.createElement("figure");
     figure.classList.add("gallery-item");
+    figure.dataset.id = item.id; // ✅ Ajoute l'ID pour la suppression dynamique
 
     const imgContainer = document.createElement("div"); // Conteneur image + icône
     imgContainer.classList.add("image-container");
@@ -90,32 +92,26 @@ async function deleteWork(id) {
 
       if (response.ok) {
           console.log(`Travail avec l'ID ${id} supprimé avec succès.`);
-          // Supprimer l'élément du DOM
-          removeWorkFromDOM(id);
+          removeWorkFromDOM(id); // ✅ Supprime immédiatement après suppression
       } else {
           console.error("Erreur lors de la suppression :", response.status);
       }
-      // Supprime immédiatement l'image de la galerie principale
-const workElementGallery = document.querySelector(`.gallery figure[data-id="${id}"]`);
-if (workElementGallery) {
-    workElementGallery.remove();
-}
   } catch (error) {
       console.error("Erreur :", error);
   }
 }
 
 function removeWorkFromDOM(id) {
-  // Supprime l'élément de la modale
-  const workElementModal = document.querySelector(`.gallery-modal [data-id="${id}"]`);
+  // ✅ Supprime l'élément de la galerie modale
+  const workElementModal = document.querySelector(`.gallery-modal figure[data-id="${id}"]`);
   if (workElementModal) {
-      workElementModal.parentElement.remove(); // Supprime l'image et l'icône
+      workElementModal.remove();
   }
 
-  // Supprime l'élément de la galerie principale
-  const workElementGallery = document.querySelector(`.gallery [data-id="${id}"]`);
+  // ✅ Supprime l'élément de la galerie principale
+  const workElementGallery = document.querySelector(`.gallery figure[data-id="${id}"]`);
   if (workElementGallery) {
-      workElementGallery.remove(); //  Correction : Supprime l'élément directement
+      workElementGallery.remove();
   }
 
   console.log(`Élément avec l'ID ${id} retiré du DOM.`);
